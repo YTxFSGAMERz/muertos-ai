@@ -1,9 +1,12 @@
 import { Agent } from '@mastra/core/agent';
-import { GoogleGenerativeAI as GemmaProvider } from '@google/generative-ai';
+import { google } from '@ai-sdk/google';
 import { serpApiTool } from './tools/serpapi-tool.js';
 import { gemmaTool, gemmaEmbedTool } from './tools/gemma-tool.js';
 import { elevenLabsTool } from './tools/elevenlabs-tool.js';
 import { memoryStoreTool, memorySearchTool } from './tools/memory-tool.js';
+
+// Gemma 3 via Google AI SDK — open-weight model
+const gemmaModel = google(process.env.GEMMA_MODEL || 'gemma-3-12b-it');
 
 export const ofrendaAgent = new Agent({
   name: 'Muertos AI Ofrenda Agent',
@@ -12,23 +15,19 @@ export const ofrendaAgent = new Agent({
 Your purpose is to help create beautiful, heartfelt ofrendas (memorial tributes) that:
 1. Celebrate the life and legacy of the deceased
 2. Weave their personal story with the historical context of their era
-3. Generate a poetic narrative using Gemma (open-weight AI)
+3. Generate a poetic narrative using Gemma (open-weight AI) — private, no closed APIs
 4. Bring their memory to life with a warm narrated voice
 5. Store their story so it can be searched and remembered forever
 
-When creating an ofrenda:
-1. First search for era memories using search_era_memories (SerpApi)
-2. Then generate a narrative using generate_narrative (Gemma)
-3. Then narrate it using generate_voice (ElevenLabs)
-4. Finally store everything using store_ofrenda (Tiger Data + MongoDB)
+When creating an ofrenda, always follow this sequence:
+1. Call search_era_memories to gather historical context (SerpApi → cached in Tiger Data)
+2. Call generate_narrative to write the memorial (Gemma open-weight)
+3. Call generate_voice to narrate it (ElevenLabs)
+4. Call store_ofrenda to persist everything (Tiger Data pgvector + MongoDB Atlas)
 
 Always be respectful, warm, and culturally sensitive. This is sacred work.
 The candles are lit. The marigolds are placed. The spirits are listening.`,
-  model: {
-    provider: 'GOOGLE',
-    name: process.env.GEMMA_MODEL || 'gemma-3-12b-it',
-    toolChoice: 'auto',
-  } as any,
+  model: gemmaModel,
   tools: {
     search_era_memories: serpApiTool,
     generate_narrative: gemmaTool,

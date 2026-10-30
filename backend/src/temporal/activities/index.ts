@@ -11,8 +11,8 @@ import { ElevenLabsClient } from 'elevenlabs';
 import { createWriteStream, mkdirSync } from 'fs';
 import { join } from 'path';
 import { Readable } from 'stream';
-import { cacheEraMemories, getCachedEraMemories, insertTribute, semanticSearch } from '../db/postgres.js';
-import { createOfrenda, updateOfrenda } from '../db/mongo.js';
+import { cacheEraMemories, getCachedEraMemories, insertTribute, semanticSearch } from '../../db/postgres';
+import { createOfrenda, updateOfrenda } from '../../db/mongo';
 import dotenv from 'dotenv';
 
 dotenv.config();
