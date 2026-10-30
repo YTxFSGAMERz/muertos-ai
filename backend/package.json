@@ -1,0 +1,39 @@
+{
+  "name": "muertos-ai-backend",
+  "version": "1.0.0",
+  "description": "Muertos.ai backend — durable digital ofrenda builder",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "worker": "tsx src/temporal/worker.ts",
+    "worker:dev": "tsx watch src/temporal/worker.ts"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "@hono/node-server": "^1.13.7",
+    "@mastra/core": "^0.10.0",
+    "@temporalio/activity": "^1.11.7",
+    "@temporalio/client": "^1.11.7",
+    "@temporalio/common": "^1.11.7",
+    "@temporalio/worker": "^1.11.7",
+    "@temporalio/workflow": "^1.11.7",
+    "dotenv": "^16.4.5",
+    "elevenlabs": "^0.18.0",
+    "hono": "^4.6.9",
+    "mongodb": "^6.10.0",
+    "pg": "^8.13.1",
+    "pgvector": "^0.2.0",
+    "serpapi": "^2.1.0",
+    "uuid": "^10.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/pg": "^8.11.10",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}

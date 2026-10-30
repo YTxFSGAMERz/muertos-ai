@@ -1,0 +1,69 @@
+name: muertos-ai
+region: nyc3
+
+services:
+  - name: backend
+    dockerfile_path: backend/Dockerfile
+    github:
+      repo: YTxFSGAMERz/muertos-ai
+      branch: main
+    http_port: 3001
+    instance_size_slug: basic-xs
+    envs:
+      - key: NODE_ENV
+        value: production
+      - key: GOOGLE_AI_API_KEY
+        type: SECRET
+      - key: ELEVENLABS_API_KEY
+        type: SECRET
+      - key: SERPAPI_API_KEY
+        type: SECRET
+      - key: MONGODB_URI
+        type: SECRET
+      - key: TEMPORAL_ADDRESS
+        value: ${temporal.HOSTNAME}:7233
+      - key: DATABASE_URL
+        value: ${muertos-db.DATABASE_URL}
+      - key: FRONTEND_URL
+        value: https://${frontend.DEFAULT_INGRESS}
+
+  - name: worker
+    dockerfile_path: backend/Dockerfile
+    run_command: node dist/temporal/worker.js
+    github:
+      repo: YTxFSGAMERz/muertos-ai
+      branch: main
+    instance_size_slug: basic-xs
+    envs:
+      - key: NODE_ENV
+        value: production
+      - key: GOOGLE_AI_API_KEY
+        type: SECRET
+      - key: ELEVENLABS_API_KEY
+        type: SECRET
+      - key: SERPAPI_API_KEY
+        type: SECRET
+      - key: MONGODB_URI
+        type: SECRET
+      - key: TEMPORAL_ADDRESS
+        value: ${temporal.HOSTNAME}:7233
+      - key: DATABASE_URL
+        value: ${muertos-db.DATABASE_URL}
+
+  - name: frontend
+    dockerfile_path: frontend/Dockerfile
+    github:
+      repo: YTxFSGAMERz/muertos-ai
+      branch: main
+    http_port: 3000
+    instance_size_slug: basic-xs
+    envs:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://${backend.DEFAULT_INGRESS}
+
+databases:
+  - name: muertos-db
+    engine: PG
+    version: "16"
+    size: db-s-1vcpu-1gb
+    num_nodes: 1
