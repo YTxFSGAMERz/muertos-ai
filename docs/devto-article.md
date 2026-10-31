@@ -143,9 +143,9 @@ The open approach didn't just make this *possible* — it made it *right* for th
 
 ## My Agent Session
 
-{% agent_session muertos-ai-build-session %}
+{% agent_session building-muertosai-durable-ai-ofrenda-with-gemma-temporal-mastra-momvti %}
 
-*(Session recorded with DevRelay — showing the full build flow from scaffold to deployment)*
+*(Session recorded with DevRelay — view the interactive build session at [dev.to/agent_sessions/building-muertosai-durable-ai-ofrenda-with-gemma-temporal-mastra-momvti](https://dev.to/agent_sessions/building-muertosai-durable-ai-ofrenda-with-gemma-temporal-mastra-momvti))*
 
 ---
 
